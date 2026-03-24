@@ -25,7 +25,7 @@ const input = new TextInputBuilder()
   .setCustomId("status-text")
   .setLabel("What should my status say?")
   .setStyle(TextInputStyle.Short)
-  .setPlaceholder("Watching the sunset 🌅")
+  .setPlaceholder("Brewing Tea 🍵")
   .setRequired(true);
 
 modal.addComponents(new ActionRowBuilder().addComponents(input));
@@ -44,10 +44,11 @@ await interaction.showModal(modal);
           const username = interaction.user.globalName || interaction.user.username;
           
   const confirmEmbed = new EmbedBuilder()
-    .setColor("#81b46b")
-    .setTitle(`🏄 Nice, ${username}! Loving the vibe change!`)
+    .setColor('F5E6EA')
+    .setTitle(`🌺 Nice, ${username}! Loving the atmosphere change!`)
     .setDescription(`Successfully sent log to set website! \n\nFeed: **${statusText}**!`)
-    .setFooter({ text: "Surfari.io · 2025", iconURL: "https://i.imgur.com/Q2KRVBO.png" })
+    .setFooter({ text: "Flourai.io · 2026", iconURL: "https://imgur.com/jiu0zEe.png" })
+
 
   await interaction.reply({ embeds: [confirmEmbed], ephemeral: true });
 }
