@@ -316,10 +316,171 @@ app.get("/auth/callback", async (req, res) => {
     res.clearCookie("code_verifier");
 
     return res.send(`
-      <h2>Verification complete</h2>
-      <p>Your Discord account has been linked to <strong>${robloxUsername}</strong>.</p>
-      <p>You can return to Discord now.</p>
-    `);
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Flourai Verification Complete</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at top, rgba(255, 153, 204, 0.16), transparent 35%),
+        linear-gradient(180deg, #0f0f16 0%, #141421 100%);
+      color: #f7f2f5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 560px;
+      background: rgba(24, 24, 36, 0.88);
+      border: 1px solid rgba(255, 183, 212, 0.2);
+      border-radius: 24px;
+      padding: 36px 30px;
+      text-align: center;
+      box-shadow:
+        0 20px 60px rgba(0, 0, 0, 0.45),
+        0 0 40px rgba(255, 150, 200, 0.08);
+      backdrop-filter: blur(14px);
+    }
+
+    .icon {
+      width: 82px;
+      height: 82px;
+      margin: 0 auto 18px;
+      border-radius: 999px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 36px;
+      background: linear-gradient(135deg, rgba(255, 168, 213, 0.22), rgba(255, 214, 232, 0.08));
+      border: 1px solid rgba(255, 190, 220, 0.28);
+      box-shadow: 0 0 30px rgba(255, 160, 210, 0.12);
+    }
+
+    .eyebrow {
+      display: inline-block;
+      margin-bottom: 12px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #ffd8ea;
+      background: rgba(255, 182, 219, 0.1);
+      border: 1px solid rgba(255, 182, 219, 0.16);
+    }
+
+    h1 {
+      margin: 0 0 10px;
+      font-size: 32px;
+      line-height: 1.1;
+      color: #fff4fa;
+    }
+
+    p {
+      margin: 0;
+      color: #d7cfda;
+      font-size: 16px;
+      line-height: 1.7;
+    }
+
+    .user {
+      margin-top: 20px;
+      padding: 16px 18px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 190, 220, 0.12);
+      color: #fff;
+      font-size: 15px;
+    }
+
+    .username {
+      color: #ffc3df;
+      font-weight: 700;
+    }
+
+    .actions {
+      margin-top: 24px;
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      text-decoration: none;
+      border: none;
+      border-radius: 14px;
+      padding: 12px 18px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #ffb6d9, #ff8fc2);
+      color: #24151d;
+      box-shadow: 0 10px 24px rgba(255, 143, 194, 0.2);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      filter: brightness(1.03);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.04);
+      color: #f8edf3;
+      border: 1px solid rgba(255, 190, 220, 0.14);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.07);
+    }
+
+    .footer {
+      margin-top: 22px;
+      font-size: 13px;
+      color: #a99daa;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="icon">🌸</div>
+    <div class="eyebrow">Flourai Verification</div>
+    <h1>Verification Complete</h1>
+    <p>Your Discord account has been successfully linked and updated.</p>
+
+    <div class="user">
+      Verified as <span class="username">${robloxUsername}</span>
+    </div>
+
+    <div class="actions">
+      <a class="btn btn-primary" href="discord://-/channels/@me">Return to Discord</a>
+      <button class="btn btn-secondary" onclick="window.close()">Close Page</button>
+    </div>
+
+    <div class="footer">
+      You can safely return to Discord now.
+    </div>
+  </div>
+</body>
+</html>
+`);
   } catch (err) {
     console.error("OAuth callback error:", err.response?.data || err.message);
     return res.status(500).send("Verification failed.");
@@ -394,7 +555,7 @@ client.on("messageReactionAdd", async (reaction, user) => {
 
     const verifyUrl = `${process.env.BASE_URL}/verify/start?token=${token}`;
 
-    await user.send(`🌸 Click the link below to verify with Roblox:\n${verifyUrl}`);
+    await user.send(`🌸 Click the link below to verify with Roblox\n\n### • [LINK](<${verifyUrl}>)`);
     console.log(`Sent verification link to ${user.tag}`);
   } catch (err) {
     console.error("Reaction verify error:", err);
