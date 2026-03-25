@@ -28,6 +28,8 @@ const MONGO_URL = process.env.MONGO_URL;
 const DB_NAME = process.env.MONGO_DB || "surfari";
 const PORT = process.env.PORT || 3000;
 
+client.pendingVerifications = new Map();
+
 if (!TOKEN) {
   console.error("❌ DISCORD_TOKEN missing");
   process.exit(1);

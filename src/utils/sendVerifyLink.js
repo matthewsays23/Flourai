@@ -1,7 +1,11 @@
 const crypto = require("crypto");
 
 async function sendVerifyLink(client, user, guildId) {
-  if (!client.pendingVerifications) {
+  if (!client) {
+    throw new Error("sendVerifyLink: client is undefined");
+  }
+
+  if (!(client.pendingVerifications instanceof Map)) {
     client.pendingVerifications = new Map();
   }
 
@@ -16,7 +20,7 @@ async function sendVerifyLink(client, user, guildId) {
   const verifyUrl = `${process.env.BASE_URL}/verify/start?token=${token}`;
 
   await user.send(
-    `🌸 Click the link below to verify with Roblox!\n🔒*We do not collect or store information that is collected through ROBLOX.*\n\n### • [LINK](<${verifyUrl}>)`
+    `🌸 Click the link below to verify with Roblox!\n🔒 *We do not collect or store information that is collected through ROBLOX.*\n\n### • [LINK](<${verifyUrl}>)`
   );
 
   console.log("verify token created:", token);
