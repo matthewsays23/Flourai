@@ -1,5 +1,5 @@
 const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
-const crypto = require("crypto");
+const { sendVerifyLink } = require("../../utils/sendVerifyLink");
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -10,26 +10,7 @@ module.exports = {
     await interaction.deferReply({ ephemeral: true });
 
     try {
-      const token = crypto.randomBytes(24).toString("hex");
-
-      await interaction.client.db.collection("pendingVerifications").updateOne(
-        { token },
-        {
-          $set: {
-            token,
-            discordUserId: interaction.user.id,
-            guildId: interaction.guild.id,
-            createdAt: new Date(),
-          },
-        },
-        { upsert: true }
-      );
-
-      const verifyUrl = `${process.env.BASE_URL}/verify/start?token=${token}`;
-
-      await interaction.user.send(
-        `🌸 Click the link below to verify with Roblox!\n🔒*We do not collect or store information that is collected through ROBLOX.*\n\n### • [LINK](<${verifyUrl}>)`
-      );
+      await sendVerifyLink(interaction.client, interaction.user, interaction.guild.id);
 
       const embed = new EmbedBuilder()
         .setColor("#302c34")
