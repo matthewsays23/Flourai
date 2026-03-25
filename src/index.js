@@ -720,7 +720,7 @@ client.on("messageReactionAdd", async (reaction, user) => {
 
     const verifyUrl = `${process.env.BASE_URL}/verify/start?token=${token}`;
 
-    await user.send(`🌸 Click the link below to verify with Roblox\n\n### • [LINK](<${verifyUrl}>)`);
+    await user.send(`🌸 Click the link below to verify with Roblox!\n🔒*We do not collect or store information that is collected.\n\n### • [LINK](<${verifyUrl}>)`);
     console.log(`Sent verification link to ${user.tag}`);
   } catch (err) {
     console.error("Reaction verify error:", err);
