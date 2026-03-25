@@ -1,6 +1,10 @@
 const crypto = require("crypto");
 
 async function sendVerifyLink(client, user, guildId) {
+  if (!client.pendingVerifications) {
+    client.pendingVerifications = new Map();
+  }
+
   const token = crypto.randomBytes(24).toString("hex");
 
   client.pendingVerifications.set(token, {
