@@ -28,7 +28,7 @@ const MONGO_URL = process.env.MONGO_URL;
 const DB_NAME = process.env.MONGO_DB || "surfari";
 const PORT = process.env.PORT || 3000;
 
-client.pendingVerifications = new Map();
+
 
 if (!TOKEN) {
   console.error("❌ DISCORD_TOKEN missing");
@@ -61,7 +61,7 @@ const client = new Client({
 setupSupportReactionHandler(client);
 client.commands = new Collection();
 client.reactionRoles = new Map();
-
+client.pendingVerifications = new Map();
 
 const app = express();
 app.use(cookieParser());
