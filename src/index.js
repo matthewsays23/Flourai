@@ -60,7 +60,6 @@ setupSupportReactionHandler(client);
 client.commands = new Collection();
 client.reactionRoles = new Map();
 
-client.pendingVerifications = new Map();
 
 const app = express();
 app.use(cookieParser());
@@ -763,11 +762,18 @@ client.on("messageReactionAdd", async (reaction, user) => {
 
     const token = crypto.randomBytes(24).toString("hex");
 
-client.pendingVerifications.set(token, {
-  discordUserId: user.id,
-  guildId: reaction.message.guild.id,
-  createdAt: Date.now(),
-});
+await client.db.collection("pendingVerifications").updateOne(
+  { token },
+  {
+    $set: {
+      token,
+      discordUserId: user.id,
+      guildId: reaction.message.guild.id,
+      createdAt: new Date(),
+    },
+  },
+  { upsert: true }
+);
 
 const verifyUrl = `${process.env.BASE_URL}/verify/start?token=${token}`;
 
