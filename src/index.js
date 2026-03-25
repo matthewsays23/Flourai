@@ -765,6 +765,64 @@ client.on("messageReactionAdd", async (reaction, user) => {
     }
   }
 });
+
+const ROLE_MAP = {
+  "🛠️": "1121978087459008622",
+  "🔔": "1401120851528781894",
+  "🤝": "1121978081075269643",
+  "🎉": "1121978085051469824",
+  "❓": "988867183364939806",
+
+  "1️⃣": "1401121179049132042",
+  "2️⃣": "1401121094773244016",
+  "3️⃣": "1401121273685475461",
+  "4️⃣": "1401121409790640188"
+};
+
+const TARGET_MESSAGE_ID = "1486417036245729512";
+
+client.on("messageReactionAdd", async (reaction, user) => {
+  if (user.bot) return;
+
+  // Fix partials
+  if (reaction.partial) await reaction.fetch();
+
+  if (reaction.message.id !== TARGET_MESSAGE_ID) return;
+
+  const roleId = ROLE_MAP[reaction.emoji.name];
+  if (!roleId) return;
+
+  const member = await reaction.message.guild.members.fetch(user.id);
+  await member.roles.add(roleId).catch(() => {});
+});
+
+client.on("messageReactionRemove", async (reaction, user) => {
+  if (user.bot) return;
+
+  if (reaction.partial) await reaction.fetch();
+
+  if (reaction.message.id !== TARGET_MESSAGE_ID) return;
+
+  const roleId = ROLE_MAP[reaction.emoji.name];
+  if (!roleId) return;
+
+  const member = await reaction.message.guild.members.fetch(user.id);
+  await member.roles.remove(roleId).catch(() => {});
+});
+
+client.once("ready", async () => {
+  const channel = await client.channels.fetch("1088479756862902352");
+  const message = await channel.messages.fetch(TARGET_MESSAGE_ID);
+
+  const emojis = ["🛠️", "🔔", "🤝", "🎉", "❓", "1️⃣", "2️⃣", "3️⃣", "4️⃣"];
+
+  for (const emoji of emojis) {
+    await message.react(emoji).catch(() => {});
+  }
+
+  console.log("✅ Reaction roles ready");
+});
+
 // --------------------
 // Startup
 // --------------------
