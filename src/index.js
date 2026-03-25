@@ -262,7 +262,8 @@ app.get("/auth/callback", async (req, res) => {
       return res.status(400).send("Invalid OAuth state.");
     }
 
-    const pending = pendingVerifications.get(verifyToken);
+const pending = client.pendingVerifications.get(verifyToken);
+
     if (!pending) {
       return res.status(400).send("Verification expired or invalid.");
     }
