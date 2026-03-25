@@ -1,0 +1,25 @@
+const ROLE_MAP = {
+  Customer: "1401731081018933278",
+  BusinessPartner: "988612967622922260",
+  NotedCustomer: "1401731079173308566",
+  Contributor: "1410732956099805316",
+  ArtistryTeam: "1408585892670734347",
+  UGCUploader: "1401731081018933278",
+  JuniorStaff: "1401731075406954557",
+  IntermediateStaff: "333333333333333333",
+  SkilledStaff: "1401731074689859784",
+  CulinaryStaff: "1401731073439825941",
+  PetalAssistant: "1401731072370413618",
+  FloralSupervisor: "1401731071355257013",
+  FloretCoordinator: "1401731070528979064",
+  FloristManager: "1401731069920673792",
+  ExecutiveAssistant: "1401731068717174838",
+  ExecutiveOfficer: "1401731068100350134",
+  ExecutiveDirector: "1401731067718799452",
+  CreativityTeam: "1401731066791989390",
+  VicePresident: "1401731065395155038",
+  President: "1401731064833118339",
+  Owner: "988611016944410635",
+};
+
+module.exports = { ROLE_MAP };
