@@ -197,13 +197,22 @@ app.get("/health", (_req, res) => {
   res.json({ ok: true });
 });
 
+
 app.get("/verify/start", async (req, res) => {
   try {
     const { token } = req.query;
     if (!token) return res.status(400).send("Missing token.");
-const pending = await client.db.collection("pendingVerifications").findOne({ token });
-    
+
+    const pending = await client.db.collection("pendingVerifications").findOne({ token });
     if (!pending) return res.status(400).send("Invalid or expired token.");
+
+    const maxAge = 15 * 60 * 1000; // 15 minutes
+    const createdAt = new Date(pending.createdAt).getTime();
+
+    if (Date.now() - createdAt > maxAge) {
+      await client.db.collection("pendingVerifications").deleteOne({ token });
+      return res.status(400).send("Invalid or expired token.");
+    }
 
     const state = crypto.randomBytes(24).toString("hex");
     const codeVerifier = base64UrlEncode(crypto.randomBytes(32));

@@ -5,16 +5,17 @@ async function sendVerifyLink(client, user, guildId) {
     throw new Error("sendVerifyLink: client is undefined");
   }
 
-  if (!(client.pendingVerifications instanceof Map)) {
-    client.pendingVerifications = new Map();
+  if (!client.db) {
+    throw new Error("sendVerifyLink: client.db is undefined");
   }
 
   const token = crypto.randomBytes(24).toString("hex");
 
-  client.pendingVerifications.set(token, {
+  await client.db.collection("pendingVerifications").insertOne({
+    token,
     discordUserId: user.id,
     guildId,
-    createdAt: Date.now(),
+    createdAt: new Date(),
   });
 
   const verifyUrl = `${process.env.BASE_URL}/verify/start?token=${token}`;
@@ -24,7 +25,6 @@ async function sendVerifyLink(client, user, guildId) {
   );
 
   console.log("verify token created:", token);
-  console.log("pending size:", client.pendingVerifications.size);
 
   return token;
 }
