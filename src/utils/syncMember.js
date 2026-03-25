@@ -1,62 +1,50 @@
 const axios = require("axios");
 const { ROLE_MAP } = require("../config/roles");
-const { getDb } = require("../index"); // adjust path if needed
-
-async function getLinkedAccount(discordId) {
-  const db = getDb();
-  return db.collection("verifications").findOne({ discordId });
-}
-
-async function getRobloxUser(userId) {
-  const { data } = await axios.get(`https://users.roblox.com/v1/users/${userId}`);
-  return data;
-}
-
-async function getRobloxGroupRole(userId, groupId) {
-  const { data } = await axios.get(`https://groups.roblox.com/v2/users/${userId}/groups/roles`);
-  return data.data.find(entry => String(entry.group.id) === String(groupId)) || null;
-}
 
 async function syncDiscordMember(member) {
-  const linked = await getLinkedAccount(member.id);
-  if (!linked) throw new Error("You are not verified yet.");
+  const db = member.client.db;
+
+  const linked = await db.collection("verifications").findOne({
+    discordId: member.id,
+  });
+
+  if (!linked) {
+    throw new Error("You are not verified yet.");
+  }
 
   const robloxUserId = linked.robloxUserId;
-  const groupId = process.env.FLOURAI_GROUP_ID;
-  const verifiedRoleId = process.env.VERIFIED_ROLE_ID;
 
-  const [robloxUser, groupRole] = await Promise.all([
-    getRobloxUser(robloxUserId),
-    getRobloxGroupRole(robloxUserId, groupId),
+  const [userRes, groupsRes] = await Promise.all([
+    axios.get(`https://users.roblox.com/v1/users/${robloxUserId}`),
+    axios.get(`https://groups.roblox.com/v2/users/${robloxUserId}/groups/roles`),
   ]);
 
-  const username = robloxUser.name;
-  const rankName = groupRole?.role?.name || null;
+  const username = userRes.data.name;
+
+  const groupEntry = groupsRes.data.data.find(
+    (g) => String(g.group.id) === String(process.env.ROBLOX_GROUP_ID)
+  );
+
+  const rankName = groupEntry?.role?.name || null;
 
   const mappedRoleIds = Object.values(ROLE_MAP);
+  const oldRoles = member.roles.cache.filter((role) =>
+    mappedRoleIds.includes(role.id)
+  );
 
-  const oldRankRoles = member.roles.cache.filter(role => mappedRoleIds.includes(role.id));
-  if (oldRankRoles.size) {
-    await member.roles.remove(oldRankRoles, "Refreshing Flourai roles");
+  if (oldRoles.size) {
+    await member.roles.remove(oldRoles.map((r) => r.id)).catch(() => {});
   }
 
-  if (verifiedRoleId && !member.roles.cache.has(verifiedRoleId)) {
-    await member.roles.add(verifiedRoleId, "Ensuring verified role");
+  await member.roles.add(process.env.VERIFIED_ROLE_ID).catch(() => {});
+
+  const newRoleId = rankName ? ROLE_MAP[rankName] : null;
+  if (newRoleId) {
+    await member.roles.add(newRoleId).catch(() => {});
   }
 
-  let addedRole = null;
-  if (rankName && ROLE_MAP[rankName]) {
-    addedRole = ROLE_MAP[rankName];
-    if (!member.roles.cache.has(addedRole)) {
-      await member.roles.add(addedRole, "Synced Flourai group rank");
-    }
-  }
+  await member.setNickname(username).catch(() => {});
 
-  if (member.manageable) {
-    await member.setNickname(username).catch(() => null);
-  }
-
-  const db = getDb();
   await db.collection("verifications").updateOne(
     { discordId: member.id },
     {
@@ -69,11 +57,7 @@ async function syncDiscordMember(member) {
     }
   );
 
-  return {
-    username,
-    rankName,
-    addedRole,
-  };
+  return { username, rankName };
 }
 
 module.exports = { syncDiscordMember };
