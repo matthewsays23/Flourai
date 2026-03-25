@@ -72,9 +72,25 @@ const EVENTS_DIR = path.join(ROOT, "events");
 const roleMap = {
   Customer: "1401731081018933278",
   BusinessPartner: "988612967622922260",
-  Barista: "333333333333333333",
-  Supervisor: "444444444444444444",
-  Management: "555555555555555555",
+  NotedCustomer: "1401731079173308566",
+  Contributor: "1410732956099805316",
+  ArtistryTeam: "1408585892670734347",
+  UGCUploader: "1401731081018933278",
+  JuniorStaff: "1401731075406954557",
+  IntermediateStaff: "333333333333333333",
+  SkilledStaff: "1401731074689859784",
+  CulinaryStaff: "1401731073439825941",
+  PetalAssistant: "1401731072370413618",
+  FloralSupervisor: "1401731071355257013",
+  FloretCoordinator: "1401731070528979064",
+  FloristManager: "1401731069920673792",
+  ExecutiveAssistant: "1401731068717174838",
+  ExecutiveOfficer: "1401731068100350134",
+  ExecutiveDirector: "1401731067718799452",
+  CreativityTeam: "1401731066791989390",
+  VicePresident: "1401731065395155038",
+  President: "1401731064833118339",
+  Owner: "988611016944410635",
 };
 
 function base64UrlEncode(buffer) {
@@ -694,11 +710,11 @@ client.once("ready", async () => {
 });
 
 client.on("guildMemberAdd", async (member) => {
-  const channel = member.guild.channels.cache.get("1401111488759861319");
+  const channel = member.guild.channels.cache.get("1486359168024838267");
   if (!channel) return;
 
   const welcomeEmbed = new EmbedBuilder()
-    .setColor("#F5E6EA")
+    .setColor("#302c34")
     .setTitle("🌺 Welcome to Flourai")
     .setDescription(
       `Greetings, <@${member.id}>! Welcome to Flourai's official discord server. Flourai is a renowned Roblox group committed to providing exceptional, high-quality services, including fragrant flowers, indulgent teas, and breathtaking features. Our passionate team strives to create immersive and unforgettable experiences that captivate and delight our audience.`
@@ -706,10 +722,7 @@ client.on("guildMemberAdd", async (member) => {
     .setImage(
       "https://cdn.discordapp.com/attachments/1330406002688000085/1337683299065135205/2.png?ex=69c23a27&is=69c0e8a7&hm=fdd33d0bf0a649b5f199a99c60138212cee5dcc61df61eb671689462fcb8dce9"
     )
-    .setFooter({
-      text: "Flourai.io · 2026",
-      iconURL: "https://imgur.com/jiu0zEe.png",
-    })
+    .setFooter({ text: "Flourai · 2026", iconURL: "https://cdn.discordapp.com/attachments/1330406002688000085/1337683889082208276/Discord_Icon.png?ex=69c434f4&is=69c2e374&hm=c12d076e3df65c49a5126a192d6600d354dc3b200841433d97dbf9c19262e8ba&" })
     .setTimestamp();
 
   await channel.send({ embeds: [welcomeEmbed] });
