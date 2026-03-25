@@ -200,8 +200,8 @@ app.get("/verify/start", async (req, res) => {
   try {
     const { token } = req.query;
     if (!token) return res.status(400).send("Missing token.");
-
-    const pending = client.pendingVerifications.get(token);
+const pending = await client.db.collection("pendingVerifications").findOne({ token });
+    
     if (!pending) return res.status(400).send("Invalid or expired token.");
 
     const state = crypto.randomBytes(24).toString("hex");
@@ -261,8 +261,10 @@ app.get("/auth/callback", async (req, res) => {
     if (!savedState || state !== savedState) {
       return res.status(400).send("Invalid OAuth state.");
     }
+const pending = await client.db.collection("pendingVerifications").findOne({
+  token: verifyToken,
+});
 
-const pending = client.pendingVerifications.get(verifyToken);
 
     if (!pending) {
       return res.status(400).send("Verification expired or invalid.");
@@ -344,7 +346,9 @@ await db.collection("verifications").updateOne(
 
     await member.setNickname(robloxUsername).catch(() => {});
 
-  client.pendingVerifications.delete(verifyToken);
+await client.db.collection("pendingVerifications").deleteOne({
+  token: verifyToken,
+});
   
     res.clearCookie("verify_token");
     res.clearCookie("oauth_state");
