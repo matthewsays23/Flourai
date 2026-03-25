@@ -620,7 +620,7 @@ app.get("/auth/callback", async (req, res) => {
     <div class="badge">Flourai Verification</div>
 
     <div class="logo-wrap">
-      <img src="https://i.imgur.com/YOUR_LOGO_HERE.png" alt="Flourai Logo" />
+      <img src="https://cdn.discordapp.com/attachments/1330406002688000085/1460089463521935482/p2.png?ex=69c3e907&is=69c29787&hm=5a59856c8cea66e7f38c02b9c42455751a2bb9e0f2a0d068009c61cbbc481c12" alt="Flourai Logo" />
     </div>
 
     <h1>Welcome to Flourai</h1>
