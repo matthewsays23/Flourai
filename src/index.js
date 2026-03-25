@@ -68,8 +68,8 @@ const COMMANDS_DIR = path.join(ROOT, "commands");
 const EVENTS_DIR = path.join(ROOT, "events");
 
 const roleMap = {
-  Customer: "111111111111111111",
-  Trainee: "222222222222222222",
+  Customer: "1401731081018933278",
+  BusinessPartner: "988612967622922260",
   Barista: "333333333333333333",
   Supervisor: "444444444444444444",
   Management: "555555555555555555",
