@@ -1,6 +1,6 @@
 const axios = require("axios");
 const { ROLE_MAP } = require("../config/roles");
-const { getDb } = require("../mongo"); // adjust path if needed
+const { getDb } = require("../index"); // adjust path if needed
 
 async function getLinkedAccount(discordId) {
   const db = getDb();
