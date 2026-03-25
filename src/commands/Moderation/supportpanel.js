@@ -15,20 +15,10 @@ module.exports = {
   async execute(interaction) {
     const embed = new EmbedBuilder()
       .setColor("#302c34") // soft pink tone
-      .setTitle("🍵 Flourai Support Panel")
-      .setDescription(
-        [
-          "Flourai takes pride in delivering an exceptional customer experience. Our mission is to make your time with us both enjoyable and satisfying. That’s why we’re always here, working around the clock, just for **you**!",
-          "",
-          "If you have any questions or concerns, our team is here to help. You can reach out by opening a Customer Experience Ticket. Below are the categories we offer and what each one specializes in:",
-          "",
-          "📋 **Staff Management** — For inquiries about staff operations, resolving team conflicts, or reporting concerns regarding a management member.",
-          "🌐 **Public Relations** — For inquiries about alliances, partnership opportunities, or issues involving external group relations.",
-          "📄 **Appeal Tickets** — For appealing bans, blacklists, or discussing moderation actions applied to your Roblox/Discord account.",
-          "❓ **General Inquiries** — For general questions or support regarding group operations, low-rank concerns, or miscellaneous topics.",
-        ].join("\n")
-      )
-     .setFooter({ text: "Flourai · 2026", iconURL: "https://cdn.discordapp.com/attachments/1330406002688000085/1337683889082208276/Discord_Icon.png?ex=69c434f4&is=69c2e374&hm=c12d076e3df65c49a5126a192d6600d354dc3b200841433d97dbf9c19262e8ba&" })
+      .setTitle("🍵 Need help on your travels at Flourai? We can help guide you!")
+      .setImage('https://cdn.discordapp.com/attachments/1486108708466458694/1486108740443701309/7.png?ex=69c4f6de&is=69c3a55e&hm=817c81848b12219431595cfe19b411693fa2cf8f1e4cb08ff8761def1e7d2b5c')
+      .setDescription("Here at Flourai, we have created the opportunity to gain support from a staff member. To create a support ticket, please click one of the various categories/ the one that most suits what you're seeking. Please refrain from abusing the privilege to create support tickets, in the event that you have done so, you will be permanently banned from our Community Server.")
+      .setFooter({ text: "Flourai · 2026", iconURL: "https://cdn.discordapp.com/attachments/1330406002688000085/1337683889082208276/Discord_Icon.png?ex=69c434f4&is=69c2e374&hm=c12d076e3df65c49a5126a192d6600d354dc3b200841433d97dbf9c19262e8ba&" })
 
     const row = new ActionRowBuilder().addComponents(
       new ButtonBuilder()
