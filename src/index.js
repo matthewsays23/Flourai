@@ -736,6 +736,112 @@ client.on("messageReactionAdd", async (reaction, user) => {
   }
 });
 
+const PANEL_CHANNEL_ID = "1486368233765474325";
+const SUPPORT_ROLE_ID = "1486172951232512072";
+const PANEL_MESSAGE_ID = "1486109150399434812";
+
+const categoryMap = {
+  "📋": {
+    name: "staff-management",
+    label: "Staff Management",
+  },
+  "📱": {
+    name: "public-relations",
+    label: "Public Relations",
+  },
+  "❓": {
+    name: "general-inquiries",
+    label: "General Inquiries",
+  },
+};
+
+client.on("messageReactionAdd", async (reaction, user) => {
+  if (user.bot) return;
+
+  try {
+    if (reaction.partial) await reaction.fetch();
+    if (reaction.message.partial) await reaction.message.fetch();
+
+    if (reaction.message.id !== PANEL_MESSAGE_ID) return;
+
+    const emoji = reaction.emoji.name;
+    const selected = categoryMap[emoji];
+    if (!selected) return;
+
+    const guild = reaction.message.guild;
+    const member = await guild.members.fetch(user.id);
+
+    const existing = guild.channels.cache.find(
+      (c) =>
+        c.name === `${selected.name}-${user.username.toLowerCase().replace(/[^a-z0-9-]/g, "")}`
+    );
+
+    if (existing) {
+      try {
+        await user.send(`You already have an open ${selected.label} ticket: ${existing.name}`);
+      } catch {}
+      return;
+    }
+
+    const channel = await guild.channels.create({
+      name: `${selected.name}-${user.username.toLowerCase().replace(/[^a-z0-9-]/g, "")}`.slice(0, 90),
+      type: ChannelType.GuildText,
+      permissionOverwrites: [
+        {
+          id: guild.roles.everyone.id,
+          deny: [PermissionFlagsBits.ViewChannel],
+        },
+        {
+          id: user.id,
+          allow: [
+            PermissionFlagsBits.ViewChannel,
+            PermissionFlagsBits.SendMessages,
+            PermissionFlagsBits.ReadMessageHistory,
+            PermissionFlagsBits.AttachFiles,
+          ],
+        },
+        {
+          id: SUPPORT_ROLE_ID,
+          allow: [
+            PermissionFlagsBits.ViewChannel,
+            PermissionFlagsBits.SendMessages,
+            PermissionFlagsBits.ReadMessageHistory,
+            PermissionFlagsBits.ManageMessages,
+          ],
+        },
+      ],
+    });
+
+    const embed = new EmbedBuilder()
+      .setColor("#d9b3bc")
+      .setTitle(`🌸 ${selected.label} Ticket`)
+      .setDescription(
+        [
+          `Welcome ${member}, thank you for contacting **Flourai Support**.`,
+          "",
+          `**Category:** ${selected.label}`,
+          "",
+          "**Please reply with the following:**",
+          "• What you need help with",
+          "• Your full reasoning / issue",
+          "• Any usernames or extra details involved",
+          "",
+          "A staff member will assist you soon.",
+        ].join("\n")
+      )
+      .setFooter({ text: "Flourai Assistant" });
+
+    await channel.send({
+      content: `${member} <@&${SUPPORT_ROLE_ID}>`,
+      embeds: [embed],
+    });
+
+    await reaction.users.remove(user.id).catch(() => {});
+  } catch (err) {
+    console.error("Reaction ticket error:", err);
+  }
+});
+
 // --------------------
 // Startup
 // --------------------
