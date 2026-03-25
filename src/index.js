@@ -314,6 +314,22 @@ app.get("/auth/callback", async (req, res) => {
 
     const robloxRoleName = groupEntry.role.name;
 
+    const db = client.db;
+
+await db.collection("verifications").updateOne(
+  { discordId: pending.discordUserId },
+  {
+    $set: {
+      discordId: pending.discordUserId,
+      robloxUserId,
+      robloxUsername,
+      robloxRankName: robloxRoleName,
+      verifiedAt: new Date(),
+    },
+  },
+  { upsert: true }
+);
+
     const guild = await client.guilds.fetch(pending.guildId);
     const member = await guild.members.fetch(pending.discordUserId);
 
