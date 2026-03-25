@@ -60,7 +60,7 @@ setupSupportReactionHandler(client);
 client.commands = new Collection();
 client.reactionRoles = new Map();
 
-const pendingVerifications = new Map();
+client.pendingVerifications = new Map();
 
 const app = express();
 app.use(cookieParser());
@@ -201,7 +201,7 @@ app.get("/verify/start", async (req, res) => {
     const { token } = req.query;
     if (!token) return res.status(400).send("Missing token.");
 
-    const pending = pendingVerifications.get(token);
+    const pending = client.pendingVerifications.get(token);
     if (!pending) return res.status(400).send("Invalid or expired token.");
 
     const state = crypto.randomBytes(24).toString("hex");
@@ -343,8 +343,8 @@ await db.collection("verifications").updateOne(
 
     await member.setNickname(robloxUsername).catch(() => {});
 
-    pendingVerifications.delete(verifyToken);
-
+  client.pendingVerifications.delete(verifyToken);
+  
     res.clearCookie("verify_token");
     res.clearCookie("oauth_state");
     res.clearCookie("code_verifier");
@@ -758,16 +758,17 @@ client.on("messageReactionAdd", async (reaction, user) => {
 
     const token = crypto.randomBytes(24).toString("hex");
 
-    pendingVerifications.set(token, {
-      discordUserId: user.id,
-      guildId: reaction.message.guild.id,
-      createdAt: Date.now(),
-    });
+client.pendingVerifications.set(token, {
+  discordUserId: user.id,
+  guildId: reaction.message.guild.id,
+  createdAt: Date.now(),
+});
 
-    const verifyUrl = `${process.env.BASE_URL}/verify/start?token=${token}`;
+const verifyUrl = `${process.env.BASE_URL}/verify/start?token=${token}`;
 
-    await user.send(`🌸 Click the link below to verify with Roblox!\n🔒*We do not collect or store information that is collected through ROBLOX.*\n\n### • [LINK](<${verifyUrl}>)`);
-    console.log(`Sent verification link to ${user.tag}`);
+await user.send(
+  `🌸 Click the link below to verify with Roblox!\n🔒*We do not collect or store information that is collected through ROBLOX.*\n\n### • [LINK](<${verifyUrl}>)`
+);
   } catch (err) {
     console.error("Reaction verify error:", err);
 
