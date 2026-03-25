@@ -327,92 +327,175 @@ app.get("/auth/callback", async (req, res) => {
       box-sizing: border-box;
     }
 
-    body {
+    :root {
+      --text: #f7fff9;
+      --muted: #dbf3e5;
+      --card: rgba(18, 44, 34, 0.42);
+      --card-border: rgba(195, 255, 214, 0.22);
+      --accent: #8ff0b6;
+      --accent-2: #ffd76d;
+      --shadow: rgba(0, 0, 0, 0.35);
+    }
+
+    html, body {
       margin: 0;
-      min-height: 100vh;
+      min-height: 100%;
       font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background:
-        radial-gradient(circle at top, rgba(255, 153, 204, 0.16), transparent 35%),
-        linear-gradient(180deg, #0f0f16 0%, #141421 100%);
-      color: #f7f2f5;
+      color: var(--text);
+      overflow: hidden;
+    }
+
+    body {
+      position: relative;
+      min-height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
       padding: 24px;
+      background:
+        linear-gradient(rgba(8, 20, 16, 0.28), rgba(8, 20, 16, 0.45)),
+        url("https://cdn.discordapp.com/attachments/1330406002688000085/1337683889082208276/Discord_Icon.png?ex=69c434f4&is=69c2e374&hm=c12d076e3df65c49a5126a192d6600d354dc3b200841433d97dbf9c19262e8ba&") center center / cover no-repeat;
+    }
+
+    body::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      backdrop-filter: blur(6px) saturate(1.08);
+      background:
+        radial-gradient(circle at 50% 30%, rgba(255, 227, 130, 0.18), transparent 28%),
+        radial-gradient(circle at 20% 20%, rgba(255, 140, 190, 0.12), transparent 24%),
+        radial-gradient(circle at 80% 25%, rgba(142, 255, 186, 0.14), transparent 24%),
+        linear-gradient(to bottom, rgba(0,0,0,0.05), rgba(0,0,0,0.18));
+      z-index: 0;
+    }
+
+    .page-glow {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at center, rgba(255, 241, 166, 0.12), transparent 22%),
+        radial-gradient(circle at center, rgba(255, 255, 255, 0.06), transparent 38%);
+      pointer-events: none;
+      z-index: 0;
     }
 
     .card {
+      position: relative;
+      z-index: 1;
       width: 100%;
-      max-width: 560px;
-      background: rgba(24, 24, 36, 0.88);
-      border: 1px solid rgba(255, 183, 212, 0.2);
-      border-radius: 24px;
-      padding: 36px 30px;
-      text-align: center;
+      max-width: 620px;
+      padding: 30px;
+      border-radius: 32px;
+      background: var(--card);
+      border: 1px solid var(--card-border);
       box-shadow:
-        0 20px 60px rgba(0, 0, 0, 0.45),
-        0 0 40px rgba(255, 150, 200, 0.08);
-      backdrop-filter: blur(14px);
+        0 25px 70px var(--shadow),
+        inset 0 1px 0 rgba(255,255,255,0.08),
+        0 0 50px rgba(157, 255, 196, 0.08);
+      backdrop-filter: blur(20px);
+      text-align: center;
     }
 
-    .icon {
-      width: 82px;
-      height: 82px;
-      margin: 0 auto 18px;
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px;
       border-radius: 999px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255,255,255,0.14);
+      color: #f5fff8;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 18px;
+    }
+
+    .logo-wrap {
+      margin: 0 auto 18px;
+      width: 118px;
+      height: 118px;
+      border-radius: 28px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 36px;
-      background: linear-gradient(135deg, rgba(255, 168, 213, 0.22), rgba(255, 214, 232, 0.08));
-      border: 1px solid rgba(255, 190, 220, 0.28);
-      box-shadow: 0 0 30px rgba(255, 160, 210, 0.12);
+      background:
+        radial-gradient(circle at 30% 30%, rgba(255,255,255,0.22), transparent 30%),
+        linear-gradient(145deg, rgba(157,255,196,0.24), rgba(255,216,112,0.14));
+      border: 1px solid rgba(255,255,255,0.18);
+      box-shadow:
+        0 12px 35px rgba(0,0,0,0.22),
+        0 0 30px rgba(255, 225, 119, 0.10);
+      overflow: hidden;
     }
 
-    .eyebrow {
-      display: inline-block;
-      margin-bottom: 12px;
-      padding: 6px 12px;
-      border-radius: 999px;
-      font-size: 12px;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: #ffd8ea;
-      background: rgba(255, 182, 219, 0.1);
-      border: 1px solid rgba(255, 182, 219, 0.16);
+    .logo-wrap img {
+      width: 90px;
+      height: 90px;
+      object-fit: cover;
+      border-radius: 22px;
+      display: block;
     }
 
     h1 {
-      margin: 0 0 10px;
-      font-size: 32px;
-      line-height: 1.1;
-      color: #fff4fa;
+      margin: 0;
+      font-size: clamp(2rem, 5vw, 3.1rem);
+      line-height: 1.04;
+      letter-spacing: -0.03em;
+      color: #f7fff9;
+      text-shadow: 0 3px 20px rgba(0,0,0,0.22);
     }
 
-    p {
-      margin: 0;
-      color: #d7cfda;
+    .subtitle {
+      margin: 14px auto 0;
+      max-width: 480px;
       font-size: 16px;
       line-height: 1.7;
+      color: var(--muted);
     }
 
-    .user {
-      margin-top: 20px;
-      padding: 16px 18px;
-      border-radius: 18px;
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid rgba(255, 190, 220, 0.12);
-      color: #fff;
-      font-size: 15px;
+    .user-box {
+      margin-top: 24px;
+      padding: 18px 20px;
+      border-radius: 22px;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.12);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.06);
+    }
+
+    .user-label {
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #d7ffe5;
+      opacity: 0.9;
+      margin-bottom: 8px;
+      font-weight: 700;
     }
 
     .username {
-      color: #ffc3df;
+      font-size: 26px;
+      font-weight: 800;
+      color: #ffffff;
+      text-shadow: 0 2px 14px rgba(0,0,0,0.2);
+    }
+
+    .role {
+      margin-top: 8px;
+      font-size: 15px;
+      color: #ecfff3;
+      opacity: 0.92;
+    }
+
+    .role span {
+      color: var(--accent-2);
       font-weight: 700;
     }
 
     .actions {
-      margin-top: 24px;
+      margin-top: 26px;
       display: flex;
       justify-content: center;
       gap: 12px;
@@ -420,58 +503,140 @@ app.get("/auth/callback", async (req, res) => {
     }
 
     .btn {
-      text-decoration: none;
+      appearance: none;
       border: none;
-      border-radius: 14px;
-      padding: 12px 18px;
+      text-decoration: none;
+      border-radius: 16px;
+      padding: 14px 18px;
       font-size: 14px;
-      font-weight: 600;
+      font-weight: 700;
+      transition: transform 0.18s ease, filter 0.18s ease, background 0.18s ease;
       cursor: pointer;
-      transition: 0.2s ease;
+      min-width: 170px;
     }
 
     .btn-primary {
-      background: linear-gradient(135deg, #ffb6d9, #ff8fc2);
-      color: #24151d;
-      box-shadow: 0 10px 24px rgba(255, 143, 194, 0.2);
+      color: #103522;
+      background: linear-gradient(135deg, #a8ffd0, #ffe282);
+      box-shadow: 0 10px 26px rgba(255, 226, 130, 0.22);
     }
 
     .btn-primary:hover {
-      transform: translateY(-1px);
-      filter: brightness(1.03);
+      transform: translateY(-2px);
+      filter: brightness(1.04);
     }
 
     .btn-secondary {
-      background: rgba(255, 255, 255, 0.04);
-      color: #f8edf3;
-      border: 1px solid rgba(255, 190, 220, 0.14);
+      color: #f5fff8;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.14);
     }
 
     .btn-secondary:hover {
-      background: rgba(255, 255, 255, 0.07);
+      transform: translateY(-2px);
+      background: rgba(255,255,255,0.12);
     }
 
     .footer {
-      margin-top: 22px;
+      margin-top: 18px;
       font-size: 13px;
-      color: #a99daa;
+      color: rgba(244,255,248,0.8);
+    }
+
+    .petals {
+      pointer-events: none;
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .petal {
+      position: absolute;
+      font-size: 18px;
+      opacity: 0.22;
+      animation: floatDown linear infinite;
+    }
+
+    .petal:nth-child(1) { left: 8%; top: -10%; animation-duration: 14s; }
+    .petal:nth-child(2) { left: 22%; top: -14%; animation-duration: 18s; }
+    .petal:nth-child(3) { left: 40%; top: -12%; animation-duration: 13s; }
+    .petal:nth-child(4) { left: 60%; top: -15%; animation-duration: 17s; }
+    .petal:nth-child(5) { left: 80%; top: -8%; animation-duration: 15s; }
+    .petal:nth-child(6) { left: 92%; top: -13%; animation-duration: 19s; }
+
+    @keyframes floatDown {
+      0% {
+        transform: translateY(-20px) rotate(0deg);
+      }
+      100% {
+        transform: translateY(115vh) rotate(260deg);
+      }
+    }
+
+    @media (max-width: 640px) {
+      body {
+        padding: 16px;
+      }
+
+      .card {
+        padding: 22px 18px;
+        border-radius: 24px;
+      }
+
+      .logo-wrap {
+        width: 100px;
+        height: 100px;
+      }
+
+      .logo-wrap img {
+        width: 78px;
+        height: 78px;
+      }
+
+      .username {
+        font-size: 22px;
+      }
+
+      .btn {
+        width: 100%;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="card">
-    <div class="icon">🌸</div>
-    <div class="eyebrow">Flourai Verification</div>
-    <h1>Verification Complete</h1>
-    <p>Your Discord account has been successfully linked and updated.</p>
+  <div class="page-glow"></div>
 
-    <div class="user">
-      Verified as <span class="username">${robloxUsername}</span>
+  <div class="petals">
+    <div class="petal">🌸</div>
+    <div class="petal">🌼</div>
+    <div class="petal">🌸</div>
+    <div class="petal">🌿</div>
+    <div class="petal">🌼</div>
+    <div class="petal">🌸</div>
+  </div>
+
+  <div class="card">
+    <div class="badge">Flourai Verification</div>
+
+    <div class="logo-wrap">
+      <img src="https://i.imgur.com/YOUR_LOGO_HERE.png" alt="Flourai Logo" />
+    </div>
+
+    <h1>Welcome to Flourai</h1>
+    <p class="subtitle">
+      Your account has been successfully verified and linked to Discord.
+    </p>
+
+    <div class="user-box">
+      <div class="user-label">Verified Account</div>
+      <div class="username">${robloxUsername}</div>
+      <div class="role">Group role: <span>${robloxRoleName}</span></div>
     </div>
 
     <div class="actions">
       <a class="btn btn-primary" href="discord://-/channels/@me">Return to Discord</a>
-      <button class="btn btn-secondary" onclick="window.close()">Close Page</button>
+      <button class="btn btn-secondary" onclick="window.close()">Close</button>
     </div>
 
     <div class="footer">
