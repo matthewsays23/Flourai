@@ -56,8 +56,8 @@ async function endGiveaway(client, giveawayId) {
   );
 
   const endedEmbed = new EmbedBuilder()
-    .setColor("#F5E6EA")
-    .setTitle("🌸 Flourai Giveaway Ended")
+    .setColor("#302c34")
+    .setTitle("<:emoji_41:1113830951877886084> Giveaway Ended")
     .setDescription(
       `**Prize:** ${giveaway.prize}\n\n` +
       `🏆 Winners: ${
@@ -67,7 +67,8 @@ async function endGiveaway(client, giveawayId) {
       }\n\n` +
       `Hosted by: <@${giveaway.hostId}>`
     )
-    .setFooter({ text: "Flourai · 2026" });
+     .setFooter({ text: "Flourai · 2026", iconURL: "https://cdn.discordapp.com/attachments/1330406002688000085/1337683889082208276/Discord_Icon.png?ex=69c434f4&is=69c2e374&hm=c12d076e3df65c49a5126a192d6600d354dc3b200841433d97dbf9c19262e8ba&" })
+     .setTimestamp()
 
   const row = new ActionRowBuilder().addComponents(
     new ButtonBuilder()
@@ -79,8 +80,8 @@ async function endGiveaway(client, giveawayId) {
     new ButtonBuilder()
       .setCustomId(`giveaway_reroll_${giveawayId}`)
       .setLabel("Reroll")
-      .setEmoji("🎉")
-      .setStyle(ButtonStyle.Success)
+      .setEmoji("🔄")
+      .setStyle(ButtonStyle.Primary)
   );
 
   await message.edit({
