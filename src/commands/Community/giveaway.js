@@ -52,7 +52,7 @@ module.exports = {
       .setDescription(
         `**Prize:** ${prize}\n\n` +
         `Click the button below to enter.\n` +
-        `You must have the customer role to join.\n\n` +
+        `You must have the **Customer** or above role to join.\n\n` +
         `⏰ Ends: <t:${Math.floor(endsAt / 1000)}:R>\n` +
         `🏆 Winners: ${winnerCount}`
       )
