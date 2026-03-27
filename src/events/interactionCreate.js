@@ -56,12 +56,30 @@ module.exports = {
             });
           }
 
-          if (!member.roles.cache.has(giveaway.customerRoleId)) {
-            return interaction.reply({
-              content: "❌ You need the customer role to join this giveaway.",
-              ephemeral: true,
-            });
-          }
+
+if (!member) {
+  return interaction.reply({
+    content: "❌ Could not verify your roles.",
+    ephemeral: true,
+  });
+}
+
+const customerRole = await interaction.guild.roles.fetch(giveaway.customerRoleId).catch(() => null);
+
+if (!customerRole) {
+  return interaction.reply({
+    content: "❌ Customer role not found.",
+    ephemeral: true,
+  });
+}
+
+// customer or above
+if (member.roles.highest.position < customerRole.position) {
+  return interaction.reply({
+    content: "❌ You must have the customer role or higher to join this giveaway.",
+    ephemeral: true,
+  });
+}
 
           if (giveaway.participants.includes(interaction.user.id)) {
             return interaction.reply({
@@ -111,7 +129,10 @@ module.exports = {
           for (const userId of giveaway.participants) {
             const member = await interaction.guild.members.fetch(userId).catch(() => null);
             if (!member) continue;
-            if (!member.roles.cache.has(giveaway.customerRoleId)) continue;
+           const customerRole = await guild.roles.fetch(giveaway.customerRoleId).catch(() => null);
+if (!customerRole) continue;
+
+if (member.roles.highest.position < customerRole.position) continue;
             validParticipants.push(userId);
           }
 
