@@ -873,7 +873,7 @@ client.once("ready", async () => {
   client.db = db;
 
   console.log("✅ Mongo connected. DB:", DB_NAME);
-
+ client.db.collection("giveaways")
   global._surfariDb = db;
   console.log("🔌 Global _surfariDb set:", !!global._surfariDb);
 
