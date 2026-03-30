@@ -14,7 +14,7 @@ module.exports = {
 
       const embed = new EmbedBuilder()
         .setColor("#302c34")
-        .setTitle("<:greenf:1065786334192603196> Updated Successfully")
+        .setTitle("<:teacup:1488275975052595260> Updated Successfully")
         .setDescription("Configured your username and roles successfully! If you have any issues, please open a support ticket for assistance.")
          .setFooter({ text: "Flourai · 2026", iconURL: "https://cdn.discordapp.com/attachments/1330406002688000085/1460089463521935482/p2.png?ex=69cb2947&is=69c9d7c7&hm=e0a6b3c1d830f7f2c5cf84aaf70bc5f049abc58ff19c11397b364be1af8d5f99" })
         .addFields(

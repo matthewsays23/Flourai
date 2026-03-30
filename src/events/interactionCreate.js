@@ -158,7 +158,7 @@ if (member.roles.highest.position < customerRole.position) continue;
 
           const rerollEmbed = new EmbedBuilder()
             .setColor("#302c34")
-            .setTitle("<:brownflower:1067479519205789757> Flourai Giveaway Rerolled")
+            .setTitle("<:teacup:1488275975052595260> Flourai Giveaway Rerolled")
             .setDescription(
               `**Prize:** ${giveaway.prize}\n\n` +
               `🏆 New Winner(s): ${
@@ -217,7 +217,7 @@ if (member.roles.highest.position < customerRole.position) continue;
 
           const confirmEmbed = new EmbedBuilder()
             .setColor("#302c34")
-            .setTitle(`<:brownflower:1067479519205789757> Nice, ${username}! Loving the status change!`)
+            .setTitle(`<:teacup:1488275975052595260> Nice, ${username}! Loving the status change!`)
             .setDescription(
               `Successfully updated the bot status.\n\nFeed: **${statusText}**`
             )
