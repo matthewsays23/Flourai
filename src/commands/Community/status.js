@@ -11,9 +11,9 @@ module.exports = {
 
     const embed = new EmbedBuilder()
        .setColor('302c34')
-      .setTitle('<:greenf:1065786334192603196> Flourai Status')
+      .setTitle('<:brownflower:1067479519205789757> Flourai Status')
       .setDescription('All services are operating seamlessly within Flourai.\n\nHere’s a quick system overview:')
-      .setFooter({ text: "Flourai · 2026", iconURL: "https://cdn.discordapp.com/attachments/1330406002688000085/1337683299065135205/2.png?ex=69c23a27&is=69c0e8a7&hm=fdd33d0bf0a649b5f199a99c60138212cee5dcc61df61eb671689462fcb8dce9" })
+      .setFooter({ text: "Flourai · 2026", iconURL: "https://cdn.discordapp.com/attachments/1330406002688000085/1460089463521935482/p2.png?ex=69cb2947&is=69c9d7c7&hm=e0a6b3c1d830f7f2c5cf84aaf70bc5f049abc58ff19c11397b364be1af8d5f99" })
       .addFields(
         { name: 'Response Time', value: `${ping}ms`, inline: true },
         { name: 'API Status', value: `Operational`, inline: true }
@@ -39,7 +39,7 @@ module.exports = {
 
         const newEmbed = new EmbedBuilder()
          .setColor('302c34')
-      .setTitle('<:greenf:1065786334192603196> Flourai Status')
+      .setTitle('<:brownflower:1067479519205789757> Flourai Status')
       .setDescription('All services are operating seamlessly within Flourai.\n\nHere’s a quick system overview:')
       .setFooter({ text: "Flourai · 2026", iconURL: "https://cdn.discordapp.com/attachments/1330406002688000085/1460089463521935482/p2.png?ex=69cb2947&is=69c9d7c7&hm=e0a6b3c1d830f7f2c5cf84aaf70bc5f049abc58ff19c11397b364be1af8d5f99" })
       .addFields(

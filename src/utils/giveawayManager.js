@@ -57,7 +57,7 @@ async function endGiveaway(client, giveawayId) {
 
   const endedEmbed = new EmbedBuilder()
     .setColor("#302c34")
-    .setTitle("<:emoji_41:1113830951877886084> Giveaway Ended")
+    .setTitle("<:brownflower:1067479519205789757>  Giveaway Ended")
     .setDescription(
       `**Prize:** ${giveaway.prize}\n\n` +
       `🏆 Winners: ${
