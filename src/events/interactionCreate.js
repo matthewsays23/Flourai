@@ -157,8 +157,8 @@ if (member.roles.highest.position < customerRole.position) continue;
           );
 
           const rerollEmbed = new EmbedBuilder()
-            .setColor("#F5E6EA")
-            .setTitle("🌸 Flourai Giveaway Rerolled")
+            .setColor("#302c34")
+            .setTitle("<:emoji_41:1113830951877886084> Flourai Giveaway Rerolled")
             .setDescription(
               `**Prize:** ${giveaway.prize}\n\n` +
               `🏆 New Winner(s): ${
@@ -216,14 +216,14 @@ if (member.roles.highest.position < customerRole.position) continue;
           const username = interaction.user.globalName || interaction.user.username;
 
           const confirmEmbed = new EmbedBuilder()
-            .setColor("#F5E6EA")
-            .setTitle(`🌺 Nice, ${username}! Loving the atmosphere change!`)
+            .setColor("#302c34")
+            .setTitle(`<:emoji_41:1113830951877886084> Nice, ${username}! Loving the status change!`)
             .setDescription(
               `Successfully updated the bot status.\n\nFeed: **${statusText}**`
             )
             .setFooter({
-              text: "Flourai.io · 2026",
-              iconURL: "https://imgur.com/jiu0zEe.png",
+              text: "Flourai · 2026",
+              iconURL: "https://cdn.discordapp.com/attachments/1330406002688000085/1460089463521935482/p2.png?ex=69cb2947&is=69c9d7c7&hm=e0a6b3c1d830f7f2c5cf84aaf70bc5f049abc58ff19c11397b364be1af8d5f99",
             });
 
           await interaction.reply({ embeds: [confirmEmbed], ephemeral: true });
