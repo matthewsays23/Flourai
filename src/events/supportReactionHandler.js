@@ -94,7 +94,7 @@ module.exports = (client) => {
 
       const ticketEmbed = new EmbedBuilder()
         .setColor("#302c34")
-        .setTitle(`${selected.label} Ticket`)
+        .setTitle(`<:greenf:1065786334192603196> ${selected.label} Ticket`)
         .setDescription(
           [
             `Hello ${member}, you have chosen to open a support ticket. While you wait for a staff member, please follow the format below to help us better understand the situation.`,
@@ -129,7 +129,7 @@ module.exports = (client) => {
         if (logChannel) {
           const logEmbed = new EmbedBuilder()
             .setColor("#302c34")
-            .setTitle("⚙️ New Ticket Opened")
+            .setTitle("<:greenf:1065786334192603196> New Ticket Opened")
             .addFields(
               { name: "User", value: `${user.tag} (${user.id})` },
               { name: "Category", value: selected.label },
@@ -183,7 +183,7 @@ module.exports = (client) => {
         if (logChannel) {
           const logEmbed = new EmbedBuilder()
             .setColor("#302c34")
-            .setTitle("⚙️ Ticket Closed")
+            .setTitle("<:greenf:1065786334192603196> Ticket Closed")
             .addFields(
               { name: "Channel", value: `${interaction.channel.name}` },
               { name: "Closed by", value: `${interaction.user.tag}` }
