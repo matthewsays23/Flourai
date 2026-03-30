@@ -48,7 +48,7 @@ module.exports = {
 
     const embed = new EmbedBuilder()
       .setColor("#302c34")
-      .setTitle("<:emoji_41:1113830951877886084> Flourai Giveaway")
+      .setTitle("Flourai Giveaway")
       .setDescription(
         `**Prize:** ${prize}\n\n` +
         `Click the button below to enter.\n` +

@@ -94,7 +94,7 @@ module.exports = (client) => {
 
       const ticketEmbed = new EmbedBuilder()
         .setColor("#302c34")
-        .setTitle(`🌿 ${selected.label} Ticket`)
+        .setTitle(`${selected.label} Ticket`)
         .setDescription(
           [
             `Hello ${member}, you have chosen to open a support ticket. While you wait for a staff member, please follow the format below to help us better understand the situation.`,
