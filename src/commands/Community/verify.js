@@ -14,7 +14,7 @@ module.exports = {
 
       const embed = new EmbedBuilder()
         .setColor("#302c34")
-        .setTitle("<:teacup:1488275975052595260> Verification Link Sent")
+        .setTitle("<:typo:1488251493579493376> Verification Link Sent")
         .setDescription(
           "I sent the secure verification link in your DMs, please follow the instructions to finish your verification."
         )

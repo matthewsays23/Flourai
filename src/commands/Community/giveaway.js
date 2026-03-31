@@ -48,7 +48,7 @@ module.exports = {
 
     const embed = new EmbedBuilder()
       .setColor("#302c34")
-      .setTitle("<:teacup:1488275975052595260> Flourai Giveaway")
+      .setTitle("<:typo:1488251493579493376> Flourai Giveaway")
       .setDescription(
         `**Prize:** ${prize}\n\n` +
         `Click the button below to enter.\n` +

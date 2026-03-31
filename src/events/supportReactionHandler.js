@@ -94,7 +94,7 @@ module.exports = (client) => {
 
       const ticketEmbed = new EmbedBuilder()
         .setColor("#302c34")
-        .setTitle(`<:teacup:1488275975052595260> ${selected.label} Ticket`)
+        .setTitle(`<:typo:1488251493579493376> ${selected.label} Ticket`)
         .setDescription(
           [
             `Hello ${member}, you have chosen to open a support ticket. While you wait for a staff member, please follow the format below to help us better understand the situation.`,
@@ -183,7 +183,7 @@ module.exports = (client) => {
         if (logChannel) {
           const logEmbed = new EmbedBuilder()
             .setColor("#302c34")
-            .setTitle("<:teacup:1488275975052595260> Ticket Closed")
+            .setTitle("<:typo:1488251493579493376> Ticket Closed")
             .addFields(
               { name: "Channel", value: `${interaction.channel.name}` },
               { name: "Closed by", value: `${interaction.user.tag}` }
