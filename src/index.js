@@ -818,7 +818,7 @@ const ROLE_MAP = {
   "4️⃣": "1401121409790640188"
 };
 
-const TARGET_MESSAGE_ID = "1486417036245729512";
+const TARGET_MESSAGE_ID = "1488629118512664629";
 
 client.on("messageReactionAdd", async (reaction, user) => {
   if (user.bot) return;
