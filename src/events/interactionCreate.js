@@ -217,7 +217,7 @@ if (member.roles.highest.position < customerRole.position) continue;
 
           const confirmEmbed = new EmbedBuilder()
             .setColor("#302c34")
-            .setTitle(`<:typo:1488251493579493376> Nice, ${username}! Loving the status change!`)
+            .setTitle(`<:brownflower:1067479519205789757> Nice, ${username}! Loving the status change!`)
             .setDescription(
               `Successfully updated the bot status.\n\nFeed: **${statusText}**`
             )

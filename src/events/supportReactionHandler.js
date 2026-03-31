@@ -183,7 +183,7 @@ module.exports = (client) => {
         if (logChannel) {
           const logEmbed = new EmbedBuilder()
             .setColor("#302c34")
-            .setTitle("<:typo:1488251493579493376> Ticket Closed")
+            .setTitle("<:brownflower:1067479519205789757> Ticket Closed")
             .addFields(
               { name: "Channel", value: `${interaction.channel.name}` },
               { name: "Closed by", value: `${interaction.user.tag}` }

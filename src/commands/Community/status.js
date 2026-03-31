@@ -11,7 +11,7 @@ module.exports = {
 
     const embed = new EmbedBuilder()
        .setColor('302c34')
-      .setTitle('<:typo:1488251493579493376> Flourai Status')
+      .setTitle('<:brownflower:1067479519205789757> Flourai Status')
       .setDescription('All services are operating seamlessly within Flourai.\n\nHere’s a quick system overview:')
       .setFooter({ text: "Flourai · 2026", iconURL: "https://cdn.discordapp.com/attachments/1330406002688000085/1460089463521935482/p2.png?ex=69cb2947&is=69c9d7c7&hm=e0a6b3c1d830f7f2c5cf84aaf70bc5f049abc58ff19c11397b364be1af8d5f99" })
       .addFields(
@@ -39,7 +39,7 @@ module.exports = {
 
         const newEmbed = new EmbedBuilder()
          .setColor('302c34')
-      .setTitle('<:typo:1488251493579493376> Flourai Status')
+      .setTitle('<:brownflower:1067479519205789757> Flourai Status')
       .setDescription('All services are operating seamlessly within Flourai.\n\nHere’s a quick system overview:')
       .setFooter({ text: "Flourai · 2026", iconURL: "https://cdn.discordapp.com/attachments/1330406002688000085/1460089463521935482/p2.png?ex=69cb2947&is=69c9d7c7&hm=e0a6b3c1d830f7f2c5cf84aaf70bc5f049abc58ff19c11397b364be1af8d5f99" })
       .addFields(
