@@ -29,13 +29,17 @@ module.exports = {
         .setCustomId("notification_roles")
         .setLabel("Notification Roles")
         .setStyle(ButtonStyle.Secondary)
-       .setEmoji("🌿"),
+        .setEmoji({
+          id: "1065786194304192544", // replace with real emoji ID
+        }),
 
       new ButtonBuilder()
         .setCustomId("pronoun_roles")
         .setLabel("Pronoun Roles")
         .setStyle(ButtonStyle.Secondary)
-       .setEmoji("🌸")
+        .setEmoji({
+          id: "1065786238881235025", // replace with real emoji ID
+        })
     );
 
     await interaction.deferReply({ ephemeral: true });
