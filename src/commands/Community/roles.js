@@ -38,9 +38,11 @@ module.exports = {
 
     );
 
-    await interaction.reply({
-      embeds: [embed],
-      components: [row],
-    });
+   await interaction.deferReply({ ephemeral: true });
+
+await interaction.channel.send({
+  embeds: [embed],
+  components: [row],
+});
   },
 };
