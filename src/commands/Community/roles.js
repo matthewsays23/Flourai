@@ -4,6 +4,7 @@ const {
   ButtonBuilder,
   ButtonStyle,
   EmbedBuilder,
+ PermissionFlagsBits,
 } = require("discord.js");
 
 module.exports = {
