@@ -31,10 +31,10 @@ module.exports = {
       );
 
       await message.edit({
-        content: message.content || "‎",
-        embeds: message.embeds,
-        components: [row],
-      });
+  content: null,
+  embeds: [],
+  components: [row],
+});
 
       await interaction.reply({
         content: "✅ Buttons added.",
