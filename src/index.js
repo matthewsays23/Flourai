@@ -156,30 +156,6 @@ client.once("ready", async () => {
     console.error("Command registration failed:", e);
   }
 
-  try {
-    const channel = await client.channels.fetch(process.env.VERIFY_CHANNEL_ID);
-    const message = await channel.messages.fetch(process.env.VERIFY_MESSAGE_ID);
-
-    await message.react("🌺");
-    console.log("Reaction added to verification message.");
-  } catch (err) {
-    console.error("Failed to add verification reaction:", err);
-  }
-
-   try {
-    const { SUPPORT_CHANNEL_ID, SUPPORT_MESSAGE_ID, EMOJIS } = require("./config/supportTickets");
-    const channel = await client.channels.fetch(SUPPORT_CHANNEL_ID);
-    const message = await channel.messages.fetch(SUPPORT_MESSAGE_ID);
-
-    for (const emoji of Object.keys(EMOJIS)) {
-      await message.react(emoji);
-    }
-
-    console.log("✅ Support reactions added.");
-  } catch (err) {
-    console.error("❌ Failed to add support reactions:", err);
-  }
-
 });
 
 client.on("guildMemberAdd", async (member) => {

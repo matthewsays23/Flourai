@@ -29,11 +29,13 @@ module.exports = {
       new ButtonBuilder()
         .setCustomId("notification_roles")
         .setLabel("Notification Roles")
+        .setEmoji("<:bluef:1065786194304192544>")
         .setStyle(ButtonStyle.Secondary),
 
         new ButtonBuilder()
         .setCustomId("pronoun_roles")
         .setLabel("Pronoun Roles")
+        .setEmoji("<:pinkf:1065786238881235025>")
         .setStyle(ButtonStyle.Secondary),
 
     );
