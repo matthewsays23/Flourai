@@ -39,7 +39,7 @@ if (!MONGO_URL) {
   console.error("❌ MONGO_URL missing");
   process.exit(1);
 }
-const setupSupportReactionHandler = require("./events/supportReactionHandler");
+
 const client = new Client({
   intents: [
     GatewayIntentBits.Guilds,
