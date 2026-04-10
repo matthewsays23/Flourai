@@ -58,7 +58,7 @@ const client = new Client({
   ],
 });
 
-setupSupportReactionHandler(client);
+
 client.commands = new Collection();
 
 const app = express();
