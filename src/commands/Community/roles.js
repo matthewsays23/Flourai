@@ -21,7 +21,6 @@ module.exports = {
           "",
           "Flourai now offers self-assignable role management, allowing you to customize which topics you receive notifications for. To receive pings for a specific topic, please use the buttons below and select the appropriate role. If you wish to remove a role, simply return to the menu and deselect it.",
           "",
-          "━━━━━━━━━━━━━━━━━━━━",
           "-# If you have any questions or require assistance, please contact a member of the **Leadership Team**."
         ].join("\n")
       );
