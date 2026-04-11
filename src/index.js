@@ -159,22 +159,51 @@ client.once("ready", async () => {
 });
 
 client.on("guildMemberAdd", async (member) => {
-  const channel = member.guild.channels.cache.get("1486359168024838267");
-  if (!channel) return;
+  const welcomeChannel = member.guild.channels.cache.get("1486359168024838267");
+  if (!welcomeChannel) return;
+
+  // change these
+  const ROBLOX_GROUP_URL = "https://www.roblox.com/communities/14811541/Flourai";
+  const RULES_CHANNEL_ID = "988617112392179773";
+
+  const rulesUrl = `https://discord.com/channels/${member.guild.id}/${RULES_CHANNEL_ID}`;
 
   const welcomeEmbed = new EmbedBuilder()
     .setColor("#302c34")
-    .setTitle("👋 Welcome to Flourai's Community Server!")
+    .setTitle("<:emoji_41:1113830951877886084> Welcome to Flourai's Community Server!")
     .setDescription(
-      `Greetings, <@${member.id}>! Welcome to Flourai's official discord server. Flourai is a renowned Roblox group committed to providing exceptional, high-quality services, including fragrant flowers, indulgent teas, and breathtaking features. Our passionate team strives to create immersive and unforgettable experiences that captivate and delight our audience.`
+      [
+        `Greetings, <@${member.id}>, and welcome to **Flourai's Community Server!**. Flourai is a refined Roblox experience centered around **fragrant florals, indulgent teas, and elegant hospitality**. Our team is committed to creating immersive and memorable experiences for every guest who joins us.`,
+        ``,
+        `-# Please take a moment to review our rules and explore our Roblox group below. We are delighted to have you with us.`
+      ].join("\n")
     )
-    .setImage(
-      "https://cdn.discordapp.com/attachments/1330406002688000085/1337683299065135205/2.png?ex=69c23a27&is=69c0e8a7&hm=fdd33d0bf0a649b5f199a99c60138212cee5dcc61df61eb671689462fcb8dce9"
-    )
-    .setFooter({ text: "Flourai · 2026", iconURL: "https://cdn.discordapp.com/attachments/1330406002688000085/1460089463521935482/p2.png?ex=69cb2947&is=69c9d7c7&hm=e0a6b3c1d830f7f2c5cf84aaf70bc5f049abc58ff19c11397b364be1af8d5f99" })
+    .setImage("https://cdn.discordapp.com/attachments/1330406002688000085/1337683299065135205/2.png?ex=69c23a27&is=69c0e8a7&hm=fdd33d0bf0a649b5f199a99c60138212cee5dcc61df61eb671689462fcb8dce9")
     .setTimestamp();
 
-  await channel.send({ embeds: [welcomeEmbed] });
+  const row = new ActionRowBuilder().addComponents(
+    new ButtonBuilder()
+      .setLabel("Roblox Group")
+      .setStyle(ButtonStyle.Link)
+      .setURL(ROBLOX_GROUP_URL)
+      .setEmoji({
+          id: "1492027630327697418", // replace with real emoji ID
+        }),
+
+    new ButtonBuilder()
+      .setLabel("Rules")
+      .setStyle(ButtonStyle.Link)
+      .setURL(rulesUrl)
+      .setEmoji({
+          id: "1492027639035330580", // replace with real emoji ID
+        }),
+  );
+
+  await welcomeChannel.send({
+    content: `Welcome, <@${member.id}>!`,
+    embeds: [welcomeEmbed],
+    components: [row],
+  });
 });
 
 // --------------------

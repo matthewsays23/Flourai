@@ -12,6 +12,7 @@
   "dependencies": {
     "all": "^0.0.0",
     "axios": "^1.13.6",
+    "bloxlink-api-sdk": "^1.0.1-dev",
     "cookie-parser": "^1.4.7",
     "discord.js": "^14.25.1",
     "dotenv": "^17.2.1",
