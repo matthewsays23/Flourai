@@ -175,7 +175,7 @@ client.on("guildMemberAdd", async (member) => {
       [
         `Greetings, <@${member.id}>, and welcome to **Flourai's Community Server!**. Flourai is a refined Roblox experience centered around **fragrant florals, indulgent teas, and elegant hospitality**. Our team is committed to creating immersive and memorable experiences for every guest who joins us.`,
         ``,
-        `-# Please take a moment to review our rules and explore our Roblox group below. We are delighted to have you with us.`
+        `-# Please take a moment to review our rules and explore our Roblox Group below. We are delighted to have you with us.`
       ].join("\n")
     )
     .setImage("https://cdn.discordapp.com/attachments/1330406002688000085/1337683299065135205/2.png?ex=69c23a27&is=69c0e8a7&hm=fdd33d0bf0a649b5f199a99c60138212cee5dcc61df61eb671689462fcb8dce9")
