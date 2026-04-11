@@ -7,7 +7,7 @@ const {
 } = require("discord.js");
 
 const { pickRandomWinners } = require("../utils/giveawayManager");
-const { getLinkedRobloxAccount } = require("../utils/bloxlink");
+
 
 module.exports = {
   name: "interactionCreate",
@@ -39,36 +39,7 @@ module.exports = {
         if (!command) return;
 
         await command.execute(interaction, client);
-        return;
-      }
 
-      // Button Handler
-      if (interaction.isButton()) {
-        if (interaction.customId === "verify_bloxlink") {
-          return await safeReply({
-            content: `To verify, continue here: ${process.env.BLOXLINK_VERIFY_URL}`,
-          });
-        }
-
-        if (interaction.customId === "update_bloxlink_roles") {
-          const linked = await getLinkedRobloxAccount(interaction.user.id);
-
-          if (!linked) {
-            return await safeReply({
-              content: "❌ Bloxlink lookup failed. Please try again later.",
-            });
-          }
-
-          if (!linked.user || !linked.user.robloxId) {
-            return await safeReply({
-              content: "❌ You are not verified with Bloxlink yet. Please verify first.",
-            });
-          }
-
-          return await safeReply({
-            content: `✅ You are linked to Roblox ID **${linked.user.robloxId}**. If your group roles changed, run Bloxlink's \`/update\` command to refresh your roles.`,
-          });
-        }
 
         const collection = client.db.collection("giveaways");
 
