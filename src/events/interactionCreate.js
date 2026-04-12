@@ -4,10 +4,17 @@ const {
   TextInputStyle,
   ActionRowBuilder,
   EmbedBuilder,
+  ChannelType,
+  PermissionFlagsBits,
+  ButtonBuilder,
+  ButtonStyle,
 } = require("discord.js");
 
 const { pickRandomWinners } = require("../utils/giveawayManager");
 
+const TICKET_CATEGORY_ID = "1486385173732786237";
+const STAFF_ROLE_ID = "988611016944410635";
+const TRANSCRIPT_CHANNEL_ID = "1491970676427460738";
 
 module.exports = {
   name: "interactionCreate",
@@ -32,18 +39,79 @@ module.exports = {
       }
     };
 
+    const ticketTypeMap = {
+      management: {
+        label: "Staff Management",
+        emoji: "<:staff:1065786283256991786>",
+        channelPrefix: "management",
+      },
+      communications: {
+        label: "Communications",
+        emoji: "<:communications:1065786238881235025>",
+        channelPrefix: "communications",
+      },
+      general: {
+        label: "General Inquiries",
+        emoji: "<:general:1065786194304192544>",
+        channelPrefix: "general",
+      },
+      leadership: {
+        label: "Leadership",
+        emoji: "<:leadership:1065786263187247184>",
+        channelPrefix: "leadership",
+      },
+    };
+
+    function buildTranscript(messages, channel, closerTag) {
+      const lines = [];
+
+      lines.push(`Transcript for #${channel.name}`);
+      lines.push(`Channel ID: ${channel.id}`);
+      lines.push(`Guild: ${channel.guild.name}`);
+      lines.push(`Closed by: ${closerTag}`);
+      lines.push(`Created at: ${new Date().toISOString()}`);
+      lines.push("=".repeat(60));
+      lines.push("");
+
+      for (const msg of messages.reverse()) {
+        const created = new Date(msg.createdTimestamp).toISOString();
+        const author = `${msg.author?.tag || "Unknown User"} (${msg.author?.id || "unknown"})`;
+        const content = msg.content?.trim() || "[no text content]";
+
+        lines.push(`[${created}] ${author}`);
+        lines.push(content);
+
+        if (msg.attachments?.size) {
+          lines.push("Attachments:");
+          for (const attachment of msg.attachments.values()) {
+            lines.push(`- ${attachment.url}`);
+          }
+        }
+
+        if (msg.embeds?.length) {
+          lines.push(`Embeds: ${msg.embeds.length}`);
+        }
+
+        lines.push("");
+      }
+
+      return lines.join("\n");
+    }
+
     try {
-      // Slash Command Handler
+      // Slash commands
       if (interaction.isChatInputCommand()) {
         const command = client.commands.get(interaction.commandName);
         if (!command) return;
-
         await command.execute(interaction, client);
+        return;
+      }
 
-
-        const collection = client.db.collection("giveaways");
-
+      // Buttons
+      if (interaction.isButton()) {
+        // Giveaway enter
         if (interaction.customId.startsWith("giveaway_enter_")) {
+          const collection = client.db.collection("giveaways");
           const giveawayId = interaction.customId.replace("giveaway_enter_", "");
           const giveaway = await collection.findOne({ giveawayId });
 
@@ -79,7 +147,6 @@ module.exports = {
             });
           }
 
-          // customer or above
           if (member.roles.highest.position < customerRole.position) {
             return await safeReply({
               content: "❌ You must have the customer role or higher to join this giveaway.",
@@ -106,7 +173,9 @@ module.exports = {
           });
         }
 
+        // Giveaway reroll
         if (interaction.customId.startsWith("giveaway_reroll_")) {
+          const collection = client.db.collection("giveaways");
           const giveawayId = interaction.customId.replace("giveaway_reroll_", "");
           const giveaway = await collection.findOne({ giveawayId });
 
@@ -116,7 +185,7 @@ module.exports = {
             });
           }
 
-          if (!interaction.member.permissions.has("ManageGuild")) {
+          if (!interaction.member.permissions.has(PermissionFlagsBits.ManageGuild)) {
             return await safeReply({
               content: "❌ You do not have permission to reroll giveaways.",
             });
@@ -158,10 +227,7 @@ module.exports = {
 
           const winnerPool = filteredPool.length ? filteredPool : validParticipants;
 
-          const newWinners = pickRandomWinners(
-            winnerPool,
-            giveaway.winnerCount
-          );
+          const newWinners = pickRandomWinners(winnerPool, giveaway.winnerCount);
 
           await collection.updateOne(
             { giveawayId },
@@ -178,12 +244,11 @@ module.exports = {
             .setColor("#302c34")
             .setTitle("<:teacup:1488275975052595260> Flourai Giveaway Rerolled")
             .setDescription(
-              `**Prize:** ${giveaway.prize}\n\n` +
-                `🏆 New Winner(s): ${
-                  newWinners.length
-                    ? newWinners.map((id) => `<@${id}>`).join(", ")
-                    : "No valid entries"
-                }`
+              `**Prize:** ${giveaway.prize}\n\n🏆 New Winner(s): ${
+                newWinners.length
+                  ? newWinners.map((id) => `<@${id}>`).join(", ")
+                  : "No valid entries"
+              }`
             )
             .setFooter({
               text: "Flourai · 2026",
@@ -196,10 +261,136 @@ module.exports = {
           });
         }
 
-        return;
+        // Claim ticket
+        if (interaction.customId === "ticket_claim") {
+          if (!interaction.member.roles.cache.has(STAFF_ROLE_ID)) {
+            return await safeReply({
+              content: "❌ Only staff members can claim tickets.",
+            });
+          }
+
+          const currentTopic = interaction.channel.topic || "";
+          if (currentTopic.includes("claimedBy:")) {
+            return await safeReply({
+              content: "❌ This ticket has already been claimed.",
+            });
+          }
+
+          const updatedTopic = currentTopic
+            ? `${currentTopic} | claimedBy:${interaction.user.id}`
+            : `claimedBy:${interaction.user.id}`;
+
+          await interaction.channel.setTopic(updatedTopic);
+
+          const claimEmbed = new EmbedBuilder()
+            .setColor("#2f3136")
+            .setTitle("<:emoji_41:1113830951877886084>  Ticket Claimed!")
+            .setDescription(`${interaction.user} has claimed this ticket and will be assisting shortly.`);
+
+          await interaction.channel.send({ embeds: [claimEmbed] });
+
+          return await safeReply({
+            content: "✅ You claimed this ticket.",
+          });
+        }
+
+        // Transcript
+        if (interaction.customId === "ticket_transcript") {
+          if (
+            !interaction.member.roles.cache.has(STAFF_ROLE_ID) &&
+            !interaction.member.permissions.has(PermissionFlagsBits.ManageChannels)
+          ) {
+            return await safeReply({
+              content: "❌ Only staff can generate transcripts!",
+            });
+          }
+
+          await interaction.deferReply({ ephemeral: true });
+
+          const fetched = await interaction.channel.messages.fetch({ limit: 100 });
+          const transcript = buildTranscript(
+            Array.from(fetched.values()),
+            interaction.channel,
+            interaction.user.tag
+          );
+
+          const buffer = Buffer.from(transcript, "utf-8");
+          const transcriptChannel = interaction.guild.channels.cache.get(TRANSCRIPT_CHANNEL_ID);
+
+          if (!transcriptChannel) {
+            return await interaction.editReply({
+              content: "❌ Transcript channel not found.",
+            });
+          }
+
+          await transcriptChannel.send({
+            content: `📄 Transcript from ${interaction.channel} generated by ${interaction.user}`,
+            files: [
+              {
+                attachment: buffer,
+                name: `${interaction.channel.name}-transcript.txt`,
+              },
+            ],
+          });
+
+          return await interaction.editReply({
+            content: "✅ Transcript has been sent.",
+          });
+        }
+
+        // Close ticket
+        if (interaction.customId === "ticket_close") {
+          const isStaff =
+            interaction.member.roles.cache.has(STAFF_ROLE_ID) ||
+            interaction.member.permissions.has(PermissionFlagsBits.ManageChannels);
+
+          if (!isStaff) {
+            return await safeReply({
+              content: "❌ Only staff can close tickets.",
+            });
+          }
+
+          await interaction.deferReply({ ephemeral: true });
+
+          const fetched = await interaction.channel.messages.fetch({ limit: 100 });
+          const transcript = buildTranscript(
+            Array.from(fetched.values()),
+            interaction.channel,
+            interaction.user.tag
+          );
+
+          const buffer = Buffer.from(transcript, "utf-8");
+          const transcriptChannel = interaction.guild.channels.cache.get(TRANSCRIPT_CHANNEL_ID);
+
+          if (transcriptChannel) {
+            await transcriptChannel.send({
+              content: `📄 Final transcript from **${interaction.channel.name}** closed by ${interaction.user}`,
+              files: [
+                {
+                  attachment: buffer,
+                  name: `${interaction.channel.name}-transcript.txt`,
+                },
+              ],
+            });
+          }
+
+          await interaction.editReply({
+            content: "✅ Closing ticket...",
+          });
+
+          setTimeout(async () => {
+            try {
+              await interaction.channel.delete();
+            } catch (err) {
+              console.error("Ticket delete error:", err);
+            }
+          }, 2000);
+
+          return;
+        }
       }
 
-      // Dropdown (StringSelectMenu) Handler
+      // Dropdowns
       if (interaction.isStringSelectMenu()) {
         if (interaction.customId === "status-type") {
           const activityType = parseInt(interaction.values[0], 10);
@@ -217,12 +408,114 @@ module.exports = {
 
           modal.addComponents(new ActionRowBuilder().addComponents(input));
           await interaction.showModal(modal);
+          return;
+        }
+
+        if (interaction.customId === "flourai_ticket_select") {
+          const selected = interaction.values[0];
+          const typeData = ticketTypeMap[selected];
+
+          if (!typeData) {
+            return await safeReply({
+              content: "❌ Invalid ticket type selected.",
+            });
+          }
+
+          const existingTicket = interaction.guild.channels.cache.find((channel) => {
+            if (channel.parentId !== TICKET_CATEGORY_ID) return false;
+            if (!channel.topic) return false;
+            return channel.topic.includes(`ticketOwner:${interaction.user.id}`);
+          });
+
+          if (existingTicket) {
+            return await safeReply({
+              content: `❌ You already have an open ticket: ${existingTicket}`,
+            });
+          }
+
+          const ticketChannel = await interaction.guild.channels.create({
+            name: `${typeData.channelPrefix}-${interaction.user.username}`.toLowerCase(),
+            type: ChannelType.GuildText,
+            parent: TICKET_CATEGORY_ID,
+            topic: `${selected}`,
+            permissionOverwrites: [
+              {
+                id: interaction.guild.id,
+                deny: [PermissionFlagsBits.ViewChannel],
+              },
+              {
+                id: interaction.user.id,
+                allow: [
+                  PermissionFlagsBits.ViewChannel,
+                  PermissionFlagsBits.SendMessages,
+                  PermissionFlagsBits.ReadMessageHistory,
+                  PermissionFlagsBits.AttachFiles,
+                  PermissionFlagsBits.EmbedLinks,
+                ],
+              },
+              {
+                id: STAFF_ROLE_ID,
+                allow: [
+                  PermissionFlagsBits.ViewChannel,
+                  PermissionFlagsBits.SendMessages,
+                  PermissionFlagsBits.ReadMessageHistory,
+                  PermissionFlagsBits.ManageChannels,
+                  PermissionFlagsBits.AttachFiles,
+                  PermissionFlagsBits.EmbedLinks,
+                ],
+              },
+              {
+                id: client.user.id,
+                allow: [
+                  PermissionFlagsBits.ViewChannel,
+                  PermissionFlagsBits.SendMessages,
+                  PermissionFlagsBits.ReadMessageHistory,
+                  PermissionFlagsBits.ManageChannels,
+                  PermissionFlagsBits.AttachFiles,
+                  PermissionFlagsBits.EmbedLinks,
+                ],
+              },
+            ],
+          });
+
+          const ticketEmbed = new EmbedBuilder()
+            .setColor("#2f3136")
+            .setTitle(`${typeData.emoji}  Welcome to your ticket!`)
+            .setDescription(
+              `Thank you for opening a **${typeData.label}** ticket. Please explain your request in detail and a member of our team will assist you as soon as possible.\n\n-# Please remain patient while waiting for a response.`
+            )
+            .setTimestamp()
+
+          const buttons = new ActionRowBuilder().addComponents(
+            new ButtonBuilder()
+              .setCustomId("ticket_claim")
+              .setLabel("Claim")
+              .setStyle(ButtonStyle.Secondary),
+            new ButtonBuilder()
+              .setCustomId("ticket_transcript")
+              .setLabel("Transcript")
+              .setStyle(ButtonStyle.Primary),
+            new ButtonBuilder()
+              .setCustomId("ticket_close")
+              .setLabel("Close")
+              .setStyle(ButtonStyle.Danger)
+          );
+
+          await ticketChannel.send({
+            content: `${interaction.user} <@&${STAFF_ROLE_ID}>`,
+            embeds: [ticketEmbed],
+            components: [buttons],
+          });
+
+          return await safeReply({
+            content: `✅ Your ticket has been created: ${ticketChannel}`,
+          });
         }
 
         return;
       }
 
-      // Modal Submit Handler
+      // Modal submits
       if (interaction.isModalSubmit()) {
         if (interaction.customId.startsWith("status-modal-")) {
           const activityType = parseInt(interaction.customId.split("-")[2], 10);
