@@ -13,7 +13,7 @@ const {
 const { pickRandomWinners } = require("../utils/giveawayManager");
 
 const TICKET_CATEGORY_ID = "1486385173732786237";
-const STAFF_ROLE_ID = "988611016944410635";
+const STAFF_ROLE_ID = "1252400319132991538";
 const TRANSCRIPT_CHANNEL_ID = "1491970676427460738";
 
 module.exports = {
