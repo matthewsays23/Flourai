@@ -50,9 +50,15 @@ module.exports = {
 
     const row = new ActionRowBuilder().addComponents(menu);
 
+    await interaction.deferReply({ ephemeral: true });
+
     await interaction.reply({
       embeds: [embed],
       components: [row],
+    });
+
+await interaction.editReply({
+      content: "✅ Ticket panel sent.",
     });
   },
 };
