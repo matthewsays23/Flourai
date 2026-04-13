@@ -15,7 +15,7 @@ module.exports = {
   async execute(interaction) {
     const embed = new EmbedBuilder()
       .setColor("#2f3136")
-      .setTitle("<:emoji_41:1113830951877886084>  Support Panel")
+      .setTitle("<:f_initial:1493040287143034993>  Support Panel")
       .setDescription(
         "Please select the category that best fits your request before opening a ticket using the dropdown menu below. Our team will assist you shortly with care and attention.\n\n" +
         "-# Please use the ticket system before directly messaging a member of the **Leadership Team**. Thank you for your patience and respect."

@@ -173,7 +173,7 @@ client.on("guildMemberAdd", async (member) => {
 
   const welcomeEmbed = new EmbedBuilder()
     .setColor("#302c34")
-    .setTitle("<:emoji_41:1113830951877886084> Welcome to Flourai's Community Server!")
+    .setTitle("<:f_initial:1493040287143034993>  Welcome to Flourai's Community Server!")
     .setDescription(
       [
         `Greetings, <@${member.id}>, and welcome to **Flourai's Community Server!**. Flourai is a refined Roblox experience centered around **fragrant florals, indulgent teas, and elegant hospitality**. Our team is committed to creating immersive and memorable experiences for every guest who joins us.`,

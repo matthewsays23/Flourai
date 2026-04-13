@@ -284,7 +284,7 @@ module.exports = {
 
           const claimEmbed = new EmbedBuilder()
             .setColor("#2f3136")
-            .setTitle("<:emoji_41:1113830951877886084>  Ticket Claimed!")
+            .setTitle("<:f_initial:1493040287143034993>  Ticket Claimed!")
             .setDescription(`${interaction.user} has claimed this ticket and will be assisting shortly.`);
 
           await interaction.channel.send({ embeds: [claimEmbed] });

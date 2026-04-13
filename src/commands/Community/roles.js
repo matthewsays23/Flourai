@@ -15,7 +15,7 @@ module.exports = {
 
   async execute(interaction) {
     const embed = new EmbedBuilder()
-      .setTitle("<:emoji_41:1113830951877886084>  Want to stay up-to date on Flourai's operations?")
+      .setTitle("<:f_initial:1493040287143034993>  Want to stay up-to date on Flourai's operations?")
       .setColor("#2f3136")
       .setImage("https://cdn.discordapp.com/attachments/1330406002688000085/1337683303230214184/8.png?ex=69d9f528&is=69d8a3a8&hm=c9f65645a072fd24374d18d419e443fc0603689656383ea8f1f25afe9505adf6&")
       .setDescription(
