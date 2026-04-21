@@ -19,8 +19,9 @@ module.exports = {
       .setColor("#2f3136")
       .setDescription(
         [
-          "Refresh your Flourai verification to sync your latest Roblox group rank. Use this after a rank change to update your nickname and Discord role binds.",
+          "Refresh your Flourai verification to sync your latest Roblox group rank.\n\n -# Use this after a rank change to update your nickname and Discord role binds.",
         ].join("\n")
+        .setTimestamp()
       );
 
     const row = new ActionRowBuilder().addComponents(
