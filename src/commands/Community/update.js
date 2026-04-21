@@ -16,12 +16,12 @@ module.exports = {
 
     const embed = new EmbedBuilder()
       .setTitle("<:f_initial:1493040287143034993>  Update Verification")
+      .setTimestamp()
       .setColor("#2f3136")
       .setDescription(
         [
           "Refresh your Flourai verification to sync your latest Roblox group rank.\n\n -# Use this after a rank change to update your nickname and Discord role binds.",
         ].join("\n")
-        .setTimestamp()
       );
 
     const row = new ActionRowBuilder().addComponents(
