@@ -16,7 +16,6 @@ module.exports = {
 
     const embed = new EmbedBuilder()
       .setTitle("<:f_initial:1493040287143034993>  Update Verification")
-      .setTimestamp()
       .setColor("#2f3136")
       .setDescription(
         [
